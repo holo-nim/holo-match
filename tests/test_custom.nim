@@ -1,9 +1,9 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns, assigns/impl, macros
+import holo_match, holo_match/impl, std/macros
 
 test "custom Result[T]":
   type Result[T] = object
@@ -22,7 +22,8 @@ test "custom Result[T]":
         result = quote do:
           let `tmp` = `rhs`
           if not `tmp`.success:
-            raise `tmp`.error
+            assignCheckFail:
+              raise `tmp`.error
           `asgn`
     elif isCallCommandLen2 and (lhs[0].eqIdent"err" or lhs[0].eqIdent"Err"):
       result = openAssign(lhs[1], newDotExpr(rhs, ident"error"), kind)
@@ -37,8 +38,15 @@ test "custom Result[T]":
   let error = Result[void](success: false, error: newException(Exception, "error"))
   def: Err(b) = error
   check b.msg == "error"
+  let error2 = Result[string](success: false, error: newException(Exception, "error"))
+  var msg = ""
+  Ok(_) :=? error2:
+    msg = "invalid"
+  else:
+    msg = "correct"
+  check msg == "correct"
 
-import options
+import std/options
 
 test "redefined for Option[T]":
   macro assign[T](lhs; rhs: Option[T], kind: static AssignKind): untyped =

@@ -1,4 +1,4 @@
-name: assigns
+name: holo-match
 
 on:
   push:

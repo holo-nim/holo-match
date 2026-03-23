@@ -1,9 +1,9 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns
+import holo_match
 
 test ":=?":
   var executed1 = false
@@ -107,7 +107,7 @@ test "setting with tryAssign":
     executed3 = true
   check executed3
 
-import options
+import std/options
 test ":=? based on option":
   proc foo(x: Option[int]): int =
     some(n) :=? x:
@@ -128,7 +128,7 @@ test "tryAssign based on option":
   check fooTry(some(0)) == 1
   check fooTry(none(int)) == 0
 
-import macros
+import std/macros
 
 macro match(val: untyped, branches: varargs[untyped]): untyped =
   result = newEmptyNode()

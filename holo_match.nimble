@@ -1,8 +1,8 @@
 # Package
 
-version       = "0.8.2"
+version       = "0.9.0"
 author        = "metagn"
-description   = "syntax sugar for assignments"
+description   = "nested/overloadable pattern matching"
 license       = "MIT"
 srcDir        = "src"
 
@@ -17,7 +17,7 @@ when (NimMajor, NimMinor) >= (1, 4):
 
 task docs, "build docs for all modules":
   when declared(buildDocs):
-    buildDocs(gitUrl = "https://github.com/metagn/assigns", extraOptions = "--path:src")
+    buildDocs(gitUrl = "https://github.com/holo-nim/holo-match", extraOptions = "--path:src")
   else:
     echo "docs task not implemented, need nimbleutils"
 

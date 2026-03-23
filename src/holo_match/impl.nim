@@ -4,7 +4,7 @@
 ## assignment. You can use the `implementAssign` and `implementAssignExported` templates as a
 ## shorthand for declaring these overloads.
 
-import std/[macros, options], ./tupleindex
+import std/macros, ./tupleindex
 
 type AssignKind* = enum
   ## Propagated flag of how definitions should create assignments.
@@ -108,7 +108,7 @@ macro assign*[T](lhs; rhs: T, kind: static AssignKind): untyped =
   ## `implementAssign` and `implementAssignExported`. 
   result = defaultAssign(lhs, rhs, kind)
 
-from strutils import toLowerAscii
+from std/strutils import toLowerAscii
 
 proc identStr(s: string): string =
   result = newStringOfCap(s.len)
@@ -218,28 +218,6 @@ proc defaultAssign*(lhs, rhs: NimNode, kind = akLet): NimNode =
   else:
     result = defstmt(lhs, rhs)
 
-when not defined(assignsDisableOptionAssign):
-  type
-    AssignOptionError* = object of AssignError
-      ## error for failed contains checks in assignments
-
-  template assignCheckOption*(a): untyped =
-    ## template for equality checks in assignments
-    if not a.isSome:
-      assignCheckFail: # this will generate `break` for `tap`
-        raise newException(AssignOptionError, "option " & astToStr(a) & " was not Some")
-
-  macro assign*[T](lhs; rhs: Option[T], kind: static AssignKind = akLet): untyped =
-    ## The library's builtin overload of `assign` for `Option[T]`.
-    if lhs.kind in {nnkCall, nnkCommand} and lhs.len == 2 and (lhs[0].eqIdent"some" or lhs[0].eqIdent"Some"):
-      let tmp = genSym(nskLet, "tmpOption")
-      result = newStmtList(
-        newLetStmt(tmp, rhs),
-        newCall(bindSym"assignCheckOption", tmp),
-        openAssign(lhs[1], newCall(bindSym"unsafeGet", tmp), kind))
-    else:
-      result = defaultAssign(lhs, rhs, kind)
-
 template implementAssign*(T; body) {.dirty.} =
   ## Implements an overload (non-exported) of `assign` for `T` with the macro body being `body`.
   ## Macro argument names in order are `lhs`, `rhs` and `kind`.
@@ -263,7 +241,7 @@ template implementAssign*(T; body) {.dirty.} =
       LinkedList[int](leaf: 2, next:
         LinkedList[int](leaf: 3, next: nil)))
     
-    import assigns/syntax
+    import holo_match/syntax
     x | [y | [z | _]] := a
     doAssert (x, y, z) == (1, 2, 3)
   macro assign(lhs; rhs: T, kind: static AssignKind): untyped =

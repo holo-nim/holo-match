@@ -1,4 +1,4 @@
-import macros, impl
+import std/macros, ./impl
 
 proc trySimpleForVar(n: NimNode, tupleNest = 0): NimNode =
   case n.kind
@@ -255,7 +255,7 @@ macro tap*(nodes: varargs[untyped]): untyped =
   ##   applies assignments in reverse order
   ## * any other statement; also prepended to the block verbatim
   runnableExamples:
-    import assigns
+    import holo_match
     let val = tap(a := 5): a + 1
     var s: seq[int]
     tap a := 5, i in 1 .. a, filter i mod 2 != 0:

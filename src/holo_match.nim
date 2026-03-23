@@ -67,7 +67,7 @@
 ## 
 ##   # unpacking by given index:
 ##   (0..4: hello, 6..^1: world) := "hello world"
-##   import json
+##   import std/json
 ##   ("name": name, "age": age) := %*{"name": "John", "age": 30}
 ## 
 ##   # indexing by identifier if brackets used instead of parens (for enum indexed arrays):
@@ -91,12 +91,16 @@
 ## ==================
 ## 
 ## A large and important feature in this package is that you can overload
-## definitions for custom types by importing `assigns/impl <impl.html>`_.
+## definitions for custom types by importing `holo_match/impl <impl.html>`_.
 ## The `assign` macro in this module is overloadable, and the `openAssign` template creates a
 ## NimNode that calls a forced open symbol of `assign` with the AST of the left hand side,
 ## AST of the right hand side, and the flag of whether or not it is a `let`, `var`, or mutating
 ## assignment. You can use the `implementAssign` and `implementAssignExported` templates as a
 ## shorthand for declaring these overloads.
 
-import assigns/[syntax, tupleindex, impl, tap]
+import holo_match/[syntax, tupleindex, impl, tap]
 export syntax, tupleindex, impl.assign, tap
+
+when not defined(assignsDisableOptionAssign):
+  import holo_match/impl_stdlib
+  export impl_stdlib.assign
