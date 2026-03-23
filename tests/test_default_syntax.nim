@@ -1,9 +1,9 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns
+import holo_match
 
 test "basic def":
   def:
@@ -63,7 +63,7 @@ test "more var":
   (d, e, f) = (6, 5, 4)
   check (d, e, f) == (6, 5, 4)
 
-import options
+import std/options
 test "options":
   def:
     Some(opt1) = some 4
@@ -151,7 +151,7 @@ test "bracket spread":
   [g] := [1]
   check g == 1
 
-import json
+import std/json
 
 test "custom indices":
   ("name": name, "age": age) := %*{"name": "John", "age": 30}
@@ -189,7 +189,7 @@ test "type annotation":
 
   check not compiles(b is uint8 := -4)
 
-import sequtils
+import std/sequtils
 
 test "unpackArgs":
   proc foo(x: (int, string)) {.unpackArgs: [(a, b): x].} =

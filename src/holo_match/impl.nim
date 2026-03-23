@@ -108,7 +108,7 @@ macro assign*[T](lhs; rhs: T, kind: static AssignKind): untyped =
   ## `implementAssign` and `implementAssignExported`. 
   result = defaultAssign(lhs, rhs, kind)
 
-from strutils import toLowerAscii
+from std/strutils import toLowerAscii
 
 proc identStr(s: string): string =
   result = newStringOfCap(s.len)
@@ -263,7 +263,7 @@ template implementAssign*(T; body) {.dirty.} =
       LinkedList[int](leaf: 2, next:
         LinkedList[int](leaf: 3, next: nil)))
     
-    import assigns/syntax
+    import holo_match/syntax
     x | [y | [z | _]] := a
     doAssert (x, y, z) == (1, 2, 3)
   macro assign(lhs; rhs: T, kind: static AssignKind): untyped =

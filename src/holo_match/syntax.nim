@@ -63,7 +63,7 @@ template `:=?`*(a, b): bool =
   ## it is in a `block` statement.
   runnableExamples:
     doAssert (a, b) :=? (1, 2)
-    import options
+    import std/options
     let a = none(int)
     doAssert not (some(n) :=? a)
   block match:
@@ -85,7 +85,7 @@ template `:=?`*(a, b, body): untyped =
   ## Example:
   ##
   ## .. code-block::nim
-  ##  import options
+  ##  import std/options
   ##  let a = some(3)
   ##  some(n) :=? a:
   ##    doAssert n == 3
@@ -109,7 +109,7 @@ macro `:=?`*(a, b, body, elseBranch): untyped =
   ## Example:
   ##
   ## .. code-block::nim
-  ##  import options
+  ##  import std/options
   ##  let a = some(3)
   ##  some(n) :=? a:
   ##    doAssert n == 3
@@ -139,7 +139,7 @@ macro tryAssign*(a, b, body, elseBranch): untyped =
   ## Example:
   ##
   ## .. code-block::nim
-  ##  import options
+  ##  import std/options
   ##  let a = some(3)
   ##  tryAssign some(n), a:
   ##    doAssert n == 3
@@ -165,7 +165,7 @@ macro tryAssign*(a, b, c): untyped =
   ## Example:
   ##
   ## .. code-block::nim
-  ##  import options
+  ##  import std/options
   ##  let a = some(3)
   ##  tryAssign some(n) := a: # or = a
   ##    doAssert n == 3
@@ -193,7 +193,7 @@ macro tryAssign*(a, b): untyped =
   ## Example:
   ##
   ## .. code-block::nim
-  ##  import options
+  ##  import std/options
   ##  let a = some(3)
   ##  tryAssign some(n) := a: # or = a
   ##    doAssert n == 3

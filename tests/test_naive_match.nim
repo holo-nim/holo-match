@@ -1,11 +1,11 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns
+import holo_match
 
-import options
+import std/options
 
 test "block match works":
   proc isSomeYesOrNo[T](opt: Option[T]): string =

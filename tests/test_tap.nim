@@ -1,9 +1,9 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns, assigns/tap
+import holo_match, holo_match/tap
 
 test "basic test":
   let val = tap(a := 5): a + 1
@@ -24,7 +24,7 @@ test "basic test":
     s2.add(i)
   check s2 == @[1, 3, 5]
 
-import options
+import std/options
 
 test "matching":
   let x = some(5)

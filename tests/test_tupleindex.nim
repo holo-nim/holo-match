@@ -1,9 +1,9 @@
 when (compiles do: import nimbleutils/bridge):
   import nimbleutils/bridge
 else:
-  import unittest
+  import std/unittest
 
-import assigns/tupleindex
+import holo_match/tupleindex
 
 test "backwards index tuples":
   let a = (1, 2, 3)
