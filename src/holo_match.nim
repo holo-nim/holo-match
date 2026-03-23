@@ -103,4 +103,4 @@ export syntax, tupleindex, impl.assign, tap
 
 when not defined(assignsDisableOptionAssign):
   import holo_match/impl_stdlib
-  export impl_stdlib
+  export impl_stdlib.assign
